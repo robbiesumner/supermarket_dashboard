@@ -34,12 +34,18 @@ row1 <- fluidRow(
     ,plotlyOutput("revenuebyProduct", height = "480px")
   ))
 row2 <- fluidRow(box(
-  title = "Umsatz pro Produkt"
+  title = "Verteilung der Umsätze pro Filiale"
   ,status = "primary"
   ,solidHeader = TRUE
   ,collapsible = FALSE
   ,plotlyOutput("violinPlotSales", height = "480px")
-),4)
+),box(
+  title = "Kunden Art"
+  ,status = "primary"
+  ,solidHeader = TRUE
+  ,collapsible = FALSE
+  ,plotlyOutput("kuchenMemberArt", height = "480px")
+))
 body <- dashboardBody(row1, row2)
 ui <- dashboardPage(title = 'Einzelhandelsumsaetze', header, sidebar, body, skin='blue')
 server <- function(input, output) {
@@ -101,6 +107,13 @@ server <- function(input, output) {
     )%>% layout(title = "Umsatz pro Filiale", xaxis = list(title = 'Filiale'), yaxis = list(title = 'Verteilung der Verkäufe')   )
 
 
+  })
+  output$kuchenMemberArt <- renderPlotly({
+    supermarket_sales <- getData()
+    plot_ly(
+      labels = supermarket_sales$Kundenart,
+      values=supermarket_sales$n,
+      type = "pie")
   })
 }
 
