@@ -1,18 +1,17 @@
 # load the required packages
-
-
 library(shiny)
 require(shinydashboard)
 library(plotly)
 library(dplyr)
+library(ggplot2)
 
 supermarket_sales <-read.csv2("./data/supermarket_sales.csv", header = TRUE, sep = ",", dec=".",na.strings =c("","NA"),)
 
-header <- dashboardHeader(title = "Einzelhandelsumsätze")
+header <- dashboardHeader(title = "Einzelhandelsumsaetze")
 sidebar <- dashboardSidebar(
   sidebarMenu(
     menuItem("Dashboard", tabName = "dashboard", icon = icon("dashboard")),
-    menuItem("Filter", selectInput("Filliale", label = "Wählen Sie eine Filiale",
+    menuItem("Filter", selectInput("Filiale", label = "Waehlen Sie eine Filiale",
                                    choices = c("Alle",'A', 'B', "C"), selected = 'Alle' ))
   )
 )
@@ -25,15 +24,29 @@ row1 <- fluidRow(
   title = "Umsatz pro Filliale"
   ,status = "primary"
   ,solidHeader = TRUE
-  ,collapsible = TRUE
-  ,plotlyOutput("revenuebyRegion", height = "480px")
-) ,2)
+  ,collapsible = FALSE
+  ,plotlyOutput("revenuebySuperMarket", height = "480px")
+) ,box(
+    title = "Umsatz pro Produkt"
+    ,status = "primary"
+    ,solidHeader = TRUE
+    ,collapsible = FALSE
+    ,plotlyOutput("revenuebyProduct", height = "480px")
+  ))
 row2 <- fluidRow(3,4)
 body <- dashboardBody(row1, row2)
-ui <- dashboardPage(title = 'Einzelhandelsumsätze', header, sidebar, body, skin='yellow')
+ui <- dashboardPage(title = 'Einzelhandelsumsaetze', header, sidebar, body, skin='yellow')
 server <- function(input, output) {
-
-  output$revenuebyRegion <- renderPlotly({
+  getData <-function () {
+    if(input$Filiale == "Alle"){
+      supermarket_sales <- supermarket_sales
+    }else{
+      supermarket_sales <- supermarket_sales[supermarket_sales$Filiale == input$Filiale,]
+    }
+    return(supermarket_sales)
+  }
+  output$revenuebySuperMarket <- renderPlotly({
+    supermarket_sales <- getData()
     plot_ly(
 
       x = supermarket_sales$Datum,
@@ -44,7 +57,25 @@ server <- function(input, output) {
 
       type = "bar"
 
-    )%>% layout(title = "Umsatz pro Produkt", xaxis = list(title = 'Produkt'), yaxis = list(title = 'Umsatz in Euro'))
+
+    )%>% layout(title = "Umsatz pro Filiale", xaxis = list(title = 'Filliale'), yaxis = list(title = 'Umsatz in Euro'), barmode='stack')
+
+
+  })
+  output$revenuebyProduct <- renderPlotly({
+    supermarket_sales <- getData()
+    plot_ly(
+
+      x = supermarket_sales$Datum,
+
+      y=supermarket_sales$Gesamtpreis,
+
+      color=supermarket_sales$Produktlinie,
+
+      type = "bar"
+
+
+    )%>% layout(title = "Umsatz pro Produktgruppe", xaxis = list(title = 'Produktgruppe'), yaxis = list(title = 'Umsatz in Euro'), barmode='stack')
 
 
   })
