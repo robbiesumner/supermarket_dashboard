@@ -18,7 +18,7 @@ sidebar <- dashboardSidebar(
 )
 
 body <- dashboardBody()
-ui <- dashboardPage(title = 'Einzelhandelsumsätze', header, sidebar, body, skin='blue')
+ui <- dashboardPage(title = 'Einzelhandelsumsätze', header, sidebar, body, skin='yellow')
 server <- function(input, output) { }
 
 shinyApp(ui,  server)
