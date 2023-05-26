@@ -33,9 +33,15 @@ row1 <- fluidRow(
     ,collapsible = FALSE
     ,plotlyOutput("revenuebyProduct", height = "480px")
   ))
-row2 <- fluidRow(3,4)
+row2 <- fluidRow(box(
+  title = "Umsatz pro Produkt"
+  ,status = "primary"
+  ,solidHeader = TRUE
+  ,collapsible = FALSE
+  ,plotlyOutput("violinPlotSales", height = "480px")
+),4)
 body <- dashboardBody(row1, row2)
-ui <- dashboardPage(title = 'Einzelhandelsumsaetze', header, sidebar, body, skin='yellow')
+ui <- dashboardPage(title = 'Einzelhandelsumsaetze', header, sidebar, body, skin='blue')
 server <- function(input, output) {
   getData <-function () {
     if(input$Filiale == "Alle"){
@@ -76,6 +82,23 @@ server <- function(input, output) {
 
 
     )%>% layout(title = "Umsatz pro Produktgruppe", xaxis = list(title = 'Produktgruppe'), yaxis = list(title = 'Umsatz in Euro'), barmode='stack')
+
+
+  })
+  output$violinPlotSales <- renderPlotly({
+    supermarket_sales <- getData()
+    plot_ly(
+
+      x = supermarket_sales$Filiale,
+
+      y=supermarket_sales$Gesamtpreis,
+
+      type = "violin",
+      box = list(visible = T),
+      meanline = list(visible = T)
+
+
+    )%>% layout(title = "Umsatz pro Filiale", xaxis = list(title = 'Filiale'), yaxis = list(title = 'Verteilung der Verkäufe')   )
 
 
   })
