@@ -1,5 +1,4 @@
 # load the required packages
-install.packages("languageserver")
 library(shiny)
 require(shinydashboard)
 library(plotly)
