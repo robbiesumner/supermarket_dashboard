@@ -1,4 +1,5 @@
 # load the required packages
+# Dieser Code wurde geschrieben von Killian Lorenz, Robbie Summner, Frieder Löwe und Tjark Gerken
 library(shiny)
 require(shinydashboard)
 library(plotly)
