@@ -15,4 +15,3 @@ def get_sales_sum_timeframe(start_date: datetime.date = None, end_date: str = No
         df = df[(df['datetime'] <= end_date)]
     sales_sum = df["Bruttoeinkommen"].sum()
     return round(sales_sum, 2)
-

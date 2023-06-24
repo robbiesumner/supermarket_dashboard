@@ -1,6 +1,5 @@
 import dash
 import dash_bootstrap_components as dbc
-import pandas as pd
 from dash import Dash, html, Input, Output, State, dcc
 
 external_script = ["https://tailwindcss.com/", {"src": "https://cdn.tailwindcss.com"}]

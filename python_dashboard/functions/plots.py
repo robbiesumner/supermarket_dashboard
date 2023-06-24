@@ -1,5 +1,6 @@
-from python_dashboard.functions.getData import get_data
 import plotly.express as px
+
+from python_dashboard.functions.getData import get_data
 
 
 def rating_graph():
