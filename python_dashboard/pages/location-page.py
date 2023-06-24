@@ -1,5 +1,9 @@
 import dash
-from dash import html, dcc
+import plotly.express as px
+from dash import html, dcc, callback, Output, Input
+
+from python_dashboard.functions.getData import get_data
+from python_dashboard.functions.plots import sales_over_time_graph
 
 dash.register_page(__name__)
 
@@ -43,3 +47,35 @@ layout = html.Div([
 ])
 
 
+@callback(
+    Output(component_id='sales-chart', component_property='figure'),
+    Input(component_id='store-selection', component_property='value')
+)
+def update_graph(store_chosen):
+    sliced_data = get_data(store_chosen)
+    if sliced_data.empty:
+        return {}
+    else:
+        fig = px.box(sliced_data, x='Produktlinie', y='Bruttoeinkommen', color='Produktlinie', points="all", )
+    return fig
+
+
+@callback(
+    Output(component_id='rating-chart', component_property='figure'),
+    Input(component_id='store-selection', component_property='value')
+)
+def update_graph(store_chosen):
+    sliced_data = get_data(store_chosen)
+    if sliced_data.empty:
+        return {}
+    else:
+        fig = px.box(sliced_data, x='Produktlinie', y='Bewertung', color='Produktlinie', points="all", )
+    return fig
+
+
+@callback(
+    Output(component_id='sale-chart', component_property='figure'),
+    Input(component_id='store-selection', component_property='value')
+)
+def update_graph(store_chosen):
+    return sales_over_time_graph(store_chosen)

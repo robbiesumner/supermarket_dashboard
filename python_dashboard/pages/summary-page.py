@@ -1,8 +1,7 @@
 import dash
-from dash import Dash, html, dash_table, dcc, callback, Output, Input
-import plotly.express as px
+from dash import html, dcc
 
-from python_dashboard.functions.getData import get_data
+from python_dashboard.functions.plots import rating_graph, payment_graph, sales_over_time_graph, sales_graph
 
 dash.register_page(__name__)
 
@@ -21,60 +20,23 @@ layout = html.Div([
              children=[
                  html.Div(className='', children=[
                      html.Div(children=[
-                         dcc.Graph(figure={}, id='sales-chart')
+                         dcc.Graph(figure=rating_graph())
                      ])
                  ]),
                  html.Div(className='', children=[
                      html.Div(children=[
-                         dcc.Graph(figure={}, id='sale-chart')
+                         dcc.Graph(figure=payment_graph())
                      ])
                  ]),
                  html.Div(className='', children=[
                      html.Div(children=[
-                         dcc.Graph(figure={}, id='rating-chart')
+                         dcc.Graph(figure=sales_over_time_graph())
+                     ])
+                 ]),
+                 html.Div(className='', children=[
+                     html.Div(children=[
+                         dcc.Graph(figure=sales_graph())
                      ])
                  ])
              ])
 ])
-
-
-@callback(
-    Output(component_id='sales-chart', component_property='figure'),
-    Input(component_id='store-selection', component_property='value')
-)
-def update_graph(store_chosen):
-    sliced_data = get_data(store_chosen)
-    if sliced_data.empty:
-        return {}
-    else:
-        fig = px.box(sliced_data, x='Produktlinie', y='Bruttoeinkommen', color='Produktlinie', points="all", )
-    return fig
-
-
-@callback(
-    Output(component_id='rating-chart', component_property='figure'),
-    Input(component_id='store-selection', component_property='value')
-)
-def update_graph(store_chosen):
-    sliced_data = get_data(store_chosen)
-    if sliced_data.empty:
-        return {}
-    else:
-        fig = px.box(sliced_data, x='Produktlinie', y='Bewertung', color='Produktlinie', points="all", )
-    return fig
-
-
-@callback(
-    Output(component_id='sale-chart', component_property='figure'),
-    Input(component_id='store-selection', component_property='value')
-)
-def update_graph(store_chosen):
-    sliced_data = get_data(store_chosen)
-    if sliced_data.empty:
-        return {}
-    sliced_data = sliced_data.groupby(['Datum']).sum().reset_index()
-    print(sliced_data)
-    fig = px.line(sliced_data, x='Datum', y='Bruttoeinkommen')
-    return fig
-
-# Histogram zeitverteilung als Graph
