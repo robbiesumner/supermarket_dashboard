@@ -21,14 +21,19 @@ sidebar = html.Div([
     dcc.Link([
         html.P("Location")],
         href="location-page", className=""),
+    dcc.Link([
+        html.P("Data")],
+        href="data", className=""),
 ], className="pr-48 flex flex-col w-full h-full text-black text-left text-xl space-y-2",
 )
 
 app.layout = dbc.Container([
     dbc.Row([
         dbc.Col(
-            html.Div("Supermarket Dashboard",
-                     className="justify-self-start	 text-left pl-5 text-black text-4xl py-3 w-full"),
+            dcc.Link([
+                html.Div("Supermarket Dashboard",
+                         className="justify-self-start	 text-left pl-5 text-black text-4xl py-3 w-full"),
+            ], href="/",className="bg-green-100"),
         ),
         dbc.Col([
             html.Button([html.I(className="bi bi-list")], id="open-offcanvas", n_clicks=0,
