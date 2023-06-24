@@ -3,27 +3,23 @@ import dash_bootstrap_components as dbc
 import pandas as pd
 from dash import Dash, html, Input, Output, State, dcc
 
-df = pd.read_csv('./data/supermarket_sales.csv')
-
 external_script = ["https://tailwindcss.com/", {"src": "https://cdn.tailwindcss.com"}]
 
 app = Dash(__name__, external_stylesheets=[dbc.themes.SPACELAB, dbc.icons.BOOTSTRAP],
            external_scripts=external_script, use_pages=True
            )
 
+links = [{"name": "Home", "link": "/", "id": "home-link"},
+         {"name": "Summary", "link": "/summary-page", "id": "summary-link"},
+         {"name": "Location", "link": "/location", "id": "location-link"},
+         {"name": "Data", "link": "/data", "id": "data-link"}]
+
 sidebar = html.Div([
     dcc.Link([
-        html.P("Home")],
-        href="/", className=""),
-    dcc.Link([
-        html.P("Summary")],
-        href="summary-page", className=""),
-    dcc.Link([
-        html.P("Location")],
-        href="location-page", className=""),
-    dcc.Link([
-        html.P("Data")],
-        href="data", className=""),
+        html.Button(link["name"], id=link["id"], n_clicks=0)],
+        href=link["link"], className="")
+    for link in links
+
 ], className="pr-48 flex flex-col w-full h-full text-black text-left text-xl space-y-2",
 )
 
@@ -33,7 +29,7 @@ app.layout = dbc.Container([
             dcc.Link([
                 html.Div("Supermarket Dashboard",
                          className="justify-self-start	 text-left pl-5 text-black text-4xl py-3 w-full"),
-            ], href="/",className="bg-green-100"),
+            ], href="/", className="bg-green-100"),
         ),
         dbc.Col([
             html.Button([html.I(className="bi bi-list")], id="open-offcanvas", n_clicks=0,
@@ -69,10 +65,14 @@ app.layout = dbc.Container([
     Output("offcanvas", "is_open"),
     Input("open-offcanvas", "n_clicks"),
     Input("close-offcanvas", "n_clicks"),
+    Input("home-link", "n_clicks"),
+    Input("summary-link", "n_clicks"),
+    Input("location-link", "n_clicks"),
+    Input("data-link", "n_clicks"),
     [State("offcanvas", "is_open")],
 )
-def toggle_offcanvas(n1, n2, is_open):
-    if n1 or n2:
+def toggle_offcanvas(n1, n2, n3, n4, n5, n6, is_open):
+    if n1 or n2 or n3 or n4 or n5 or n6:
         return not is_open
     return is_open
 
