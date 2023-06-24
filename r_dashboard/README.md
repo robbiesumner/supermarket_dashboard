@@ -1,0 +1,2 @@
+# Supermarkt Dashboard 
+Dieses Projekt wurde im Rahmen des Moduls "Data Visualization" bei Frau Dr. Nakou an der DHBW Lörrach erstellt. Dieser Code wurde geschrieben von Killian Lorenz, Robbie Summner, Frieder Löwe und Tjark Gerken
