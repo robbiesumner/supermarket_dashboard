@@ -78,4 +78,4 @@ def toggle_offcanvas(n1, n2, n3, n4, n5, n6, is_open):
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=False)
