@@ -42,7 +42,7 @@ layout = html.Div(children=[
                                href="data", className="self-center md:self-left")
                            ],
                  className="flex flex-col px-6 justify-center w-full bg-slate-100 h-full py-10 rounded-2xl"),
-    ], className="flex flex-col lg:flex-row space-y-5 lg:space-x-5 lg:space-y-0"),
+    ], className="flex flex-col lg:flex-row space-y-5 lg:space-x-5 lg:space-y-0 items-stretch"),
 
     html.H1('Our KPIs', className="text-4xl"),
     html.Div(children=[
@@ -66,10 +66,13 @@ layout = html.Div(children=[
                                     className="flex flex-row h-full")],
                  className="flex flex-col px-6 justify-center w-full bg-slate-100 h-max py-10 rounded-2xl"),
         html.Div(children=[html.H1('All Time Rating Average', className="text-4xl"),
-                           html.Div(children=[html.P(str(round(get_data()["Bewertung"].mean(), 2)) + " / 10",
-                                                     className="text-cyan-700 text-6xl font-extrabold"),
-                                              html.P("Stars", className="text-cyan-700 text-6xl align-text-bottom")],
-                                    className="flex flex-row h-full")],
+                           html.Div(children=[
+                               html.P(str(round(get_data()["Bewertung"].mean(), 2)) + " / 10",
+                                      className="text-cyan-700 text-6xl font-extrabold"),
+                               html.I(
+                                   className="bi bi-star-fill text-yellow-400 text-5xl align-text-center self-middle")],
+                               className="flex flex-row h-full items-center space-x-2")
+                           ],
                  className="flex flex-col px-6 justify-center w-full bg-slate-100 h-max py-10 rounded-2xl"),
 
     ], className="grid grid-cols-1 md:grid-cols-2 gap-4"),

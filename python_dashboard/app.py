@@ -10,7 +10,7 @@ app = Dash(__name__, external_stylesheets=[dbc.themes.SPACELAB, dbc.icons.BOOTST
 
 links = [{"name": "Home", "link": "/", "id": "home-link"},
          {"name": "Summary", "link": "/summary-page", "id": "summary-link"},
-         {"name": "Location", "link": "/location", "id": "location-link"},
+         {"name": "Location", "link": "/location-page", "id": "location-link"},
          {"name": "Data", "link": "/data", "id": "data-link"}]
 
 sidebar = html.Div([
@@ -52,7 +52,7 @@ app.layout = dbc.Container([
     dbc.Col([dash.page_container], className=" py-3 grow w-full"),
 
     dbc.Row([
-        html.P("Designed by Killian Lorenz, Robbie Summner, Frieder Löwe und Tjark Gerken",
+        html.P("Designed by Killian Lorenz, Robbie Summner, Frieder Löwe, Lukas Tolopilo und Tjark Gerken",
                className="text-center py-1 bg-slate-300 text-slate-600 text-sm")
         ,
     ]),
